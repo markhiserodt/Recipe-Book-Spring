@@ -1,0 +1,43 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.1'
+	id 'io.spring.dependency-management' version '1.1.4'
+	id "com.microsoft.azure.azurewebapp" version "1.9.0"
+}
+
+group = 'com.cypherfusion'
+version = '1.0.0-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+azurewebapp {
+	resourceGroup = 'recipebook-rg'
+	appName = 'recipebook-spring-server'
+	pricingTier = 'F1'
+	region = 'westus'
+	runtime {
+		os = 'windows'
+		webContainer = 'Java SE'
+		javaVersion = 'Java 17'
+	}
+	auth {
+		type = 'azure_cli'
+	}
+}
