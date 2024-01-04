@@ -1,8 +1,8 @@
 package recipebook.service;
 
 
-import recipebook.persistence.FoodGroup;
-import recipebook.persistence.FoodGroupRepository;
+import recipebook.entity.FoodGroup;
+import recipebook.repository.FoodGroupRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,12 +25,13 @@ public class FoodGroupService {
     }
 
     public FoodGroup update(FoodGroup foodGroup) {
-        Optional<FoodGroup> dbFoodGroup = this.repository.findById(foodGroup.getId());
-        if (dbFoodGroup.isEmpty()) {
+        Optional<FoodGroup> foodGroupOptional = this.repository.findById(foodGroup.getId());
+        if (foodGroupOptional.isEmpty()) {
             throw new RuntimeException();
         }
-        foodGroup.setName(dbFoodGroup.get().getName());
-        return this.repository.save(dbFoodGroup.get());
+        FoodGroup foodGroupDb = foodGroupOptional.get();
+        foodGroupDb.setName(foodGroup.getName());
+        return this.repository.save(foodGroupDb);
     }
 
     public void delete(Long id) {

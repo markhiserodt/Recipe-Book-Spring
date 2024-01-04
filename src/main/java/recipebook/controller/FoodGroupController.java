@@ -1,16 +1,16 @@
-package recipebook.resource;
+package recipebook.controller;
 
 import org.springframework.web.bind.annotation.*;
-import recipebook.persistence.FoodGroup;
+import recipebook.entity.FoodGroup;
 import recipebook.service.FoodGroupService;
 
 import java.util.List;
 
 @RestController
-public class FoodGroupResource {
+public class FoodGroupController {
     FoodGroupService service;
 
-    public FoodGroupResource(FoodGroupService service) {
+    public FoodGroupController(FoodGroupService service) {
         this.service = service;
     }
 
@@ -20,7 +20,7 @@ public class FoodGroupResource {
     }
 
     @PostMapping(value = "/api/foodGroup")
-    public FoodGroup add(FoodGroup foodGroup) {
+    public FoodGroup add(@RequestBody FoodGroup foodGroup) {
         return this.service.add(foodGroup);
     }
 
