@@ -2,19 +2,16 @@ package recipebook.service;
 
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import recipebook.entity.Food;
-import recipebook.entity.FoodGroup;
-import recipebook.repository.FoodGroupRepository;
 import recipebook.repository.FoodRepository;
 
 @Service
 public class FoodService {
+    @Autowired
     FoodRepository repository;
-
-    public FoodService(FoodRepository repository) {
-        this.repository = repository;
-    }
 
     public List<Food> get() {
         return this.repository.findAll();

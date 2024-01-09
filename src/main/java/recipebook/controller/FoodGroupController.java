@@ -1,5 +1,6 @@
 package recipebook.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import recipebook.entity.FoodGroup;
 import recipebook.service.FoodGroupService;
@@ -8,11 +9,8 @@ import java.util.List;
 
 @RestController
 public class FoodGroupController {
+    @Autowired
     FoodGroupService service;
-
-    public FoodGroupController(FoodGroupService service) {
-        this.service = service;
-    }
 
     @GetMapping(value = "/api/foodGroup")
     public List<FoodGroup> get() {
