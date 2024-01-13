@@ -12,7 +12,7 @@ public class Consumer {
 
     private final Logger logger = LoggerFactory.getLogger(Consumer.class);
 
-    @KafkaListener(id = "recipe-comment-consumer", topics = "recipe_comments", groupId = "recipebook", autoStartup = "true")
+    @KafkaListener(id = "recipe-comment-consumer", topics = "recipe_comments", groupId = "recipebook", autoStartup = "false")
     public void listen(String value,
                        @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                        @Header(KafkaHeaders.RECEIVED_KEY) String key) {
