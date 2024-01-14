@@ -12,21 +12,25 @@ public class FoodController {
     @Autowired
     FoodService service;
 
+    @CrossOrigin
     @GetMapping(value = "/api/food")
     public List<Food> get() {
         return this.service.get();
     }
 
+    @CrossOrigin
     @PostMapping(value = "/api/food")
     public Food add(@RequestBody Food food) {
         return this.service.add(food);
     }
 
+    @CrossOrigin
     @PutMapping(value = "/api/food", consumes = "application/json")
     public Food update(@RequestBody Food food) {
         return this.service.update(food);
     }
 
+    @CrossOrigin
     @DeleteMapping(value = "/api/food/{id}")
     public void delete(@PathVariable Long id) {
         this.service.delete(id);
