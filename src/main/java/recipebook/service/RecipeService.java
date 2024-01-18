@@ -11,6 +11,7 @@ import recipebook.repository.RecipeRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class RecipeService {
@@ -58,19 +59,33 @@ public class RecipeService {
         List<RecipeDto> recipeDtos = new ArrayList<>();
         String url = "http://localhost:8001/api/inventory/isAvailable";
         List<Recipe> recipes = this.get();
+
         recipes.forEach(recipe -> {
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
             Boolean isAvailable = this.restTemplate.postForObject(url, recipe, Boolean.class);
             if (isAvailable == null) {
                 throw new RuntimeException();
             }
-            RecipeDto recipeDto = new RecipeDto(recipe, isAvailable);
-            recipeDtos.add(recipeDto);
+            recipeDtos.add(new RecipeDto(recipe, isAvailable));
         });
+        return recipeDtos;
+    }
+
+    public List<RecipeDto> recipesAvailableAsync() {
+        List<RecipeDto> recipeDtos = new ArrayList<>();
+        String url = "http://localhost:8001/api/inventory/isAvailable";
+        List<Recipe> recipes = this.get();
+
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
+        for (Recipe recipe : recipes) {
+            futures.add(CompletableFuture.runAsync(() -> {
+                Boolean isAvailable = this.restTemplate.postForObject(url, recipe, Boolean.class);
+                if (isAvailable == null) {
+                    throw new RuntimeException();
+                }
+                recipeDtos.add(new RecipeDto(recipe, isAvailable));
+            }));
+        }
+        futures.forEach(CompletableFuture::join);
         return recipeDtos;
     }
 }

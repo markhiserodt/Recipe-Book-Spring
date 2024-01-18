@@ -45,4 +45,11 @@ public class RecipeController {
     public List<RecipeDto> recipesAvailable(){
         return this.service.recipesAvailable();
     }
+
+    @CrossOrigin
+    @GetMapping(value = "/recipesAvailableAsync")
+    public List<RecipeDto> recipesAvailableAsync(){
+        return this.service.recipesAvailableAsync();
+    }
+
 }
