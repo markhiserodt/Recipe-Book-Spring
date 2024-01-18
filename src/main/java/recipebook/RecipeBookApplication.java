@@ -28,10 +28,6 @@ public class RecipeBookApplication {
 //						this.producer.sendMessage("2", "There is a typo in the recipe name.");
 //						this.producer.sendMessage("3", "Mmmmmmm banana bread");
 //						break;
-//					case "--consumer":
-//						MessageListenerContainer listenerContainer = kafkaListenerEndpointRegistry.getListenerContainer("myConsumer");
-//                        listenerContainer.start();
-//						break;
 //					default:
 //						break;
 //				}
@@ -43,8 +39,5 @@ public class RecipeBookApplication {
 //	RecipeBookApplication(Producer producer) {
 //		this.producer = producer;
 //	}
-//
-//	@Autowired
-//	private KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry;
 
 }

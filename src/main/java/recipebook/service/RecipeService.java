@@ -1,20 +1,38 @@
 package recipebook.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import recipebook.entity.Recipe;
+import recipebook.model.RecipeDto;
+import recipebook.repository.RecipeRepository;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import recipebook.entity.Recipe;
-import recipebook.repository.RecipeRepository;
 
 @Service
 public class RecipeService {
     @Autowired
     RecipeRepository repository;
 
+    private final RestTemplate restTemplate;
+
+    public RecipeService(RestTemplateBuilder restTemplateBuilder) {
+        this.restTemplate = restTemplateBuilder.build();
+    }
+
     public List<Recipe> get() {
         return this.repository.findAll();
+    }
+
+    public Recipe getRecipe(Long id) {
+        Optional<Recipe> recipeOptional = this.repository.findById(id);
+        if (recipeOptional.isEmpty()) {
+            throw new RuntimeException();
+        }
+        return recipeOptional.get();
     }
 
     public Recipe add(Recipe recipe) {
@@ -36,5 +54,23 @@ public class RecipeService {
         this.repository.deleteById(id);
     }
 
-
+    public List<RecipeDto> recipesAvailable() {
+        List<RecipeDto> recipeDtos = new ArrayList<>();
+        String url = "http://localhost:8001/api/inventory/isAvailable";
+        List<Recipe> recipes = this.get();
+        recipes.forEach(recipe -> {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            Boolean isAvailable = this.restTemplate.postForObject(url, recipe, Boolean.class);
+            if (isAvailable == null) {
+                throw new RuntimeException();
+            }
+            RecipeDto recipeDto = new RecipeDto(recipe, isAvailable);
+            recipeDtos.add(recipeDto);
+        });
+        return recipeDtos;
+    }
 }
