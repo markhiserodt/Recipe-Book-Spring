@@ -1,7 +1,13 @@
 package recipebook;
 
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.CommandLineRunner;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+//import org.springframework.context.annotation.Bean;
+//import recipebook.entity.RecipeComment;
+//import recipebook.service.Producer;
 
 @SpringBootApplication
 public class RecipeBookApplication {
@@ -11,7 +17,7 @@ public class RecipeBookApplication {
 	}
 
 //	private final Producer producer;
-//
+
 //	public static void main(String[] args) {
 //		SpringApplication application = new SpringApplication(RecipeBookApplication.class);
 //		application.setWebApplicationType(WebApplicationType.NONE);
@@ -24,9 +30,7 @@ public class RecipeBookApplication {
 //			for (String arg : args) {
 //				switch (arg) {
 //					case "--producer":
-//						this.producer.sendMessage("1", "I love this recipe!");
-//						this.producer.sendMessage("2", "There is a typo in the recipe name.");
-//						this.producer.sendMessage("3", "Mmmmmmm banana bread");
+//						this.producer.sendMessage("1", new RecipeComment());
 //						break;
 //					default:
 //						break;

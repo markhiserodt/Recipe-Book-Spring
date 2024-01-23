@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import recipebook.entity.Recipe;
+import recipebook.entity.RecipeComment;
 import recipebook.model.RecipeDto;
+import recipebook.service.RecipeCommentService;
 import recipebook.service.RecipeService;
 
 import java.util.List;
@@ -16,10 +18,19 @@ public class RecipeController {
     @Autowired
     RecipeService service;
 
+    @Autowired
+    RecipeCommentService recipeCommentService;
+
     @CrossOrigin
     @GetMapping
     public List<Recipe> get() {
         return this.service.get();
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/{id}")
+    public Recipe getRecipe(@PathVariable Long id) {
+        return this.service.getRecipe(id);
     }
 
     @CrossOrigin
@@ -52,4 +63,9 @@ public class RecipeController {
         return this.service.recipesAvailableAsync();
     }
 
+    @CrossOrigin
+    @PostMapping(value = "/addComment", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void addComment(@RequestBody RecipeComment recipeComment) {
+        this.recipeCommentService.addComment(recipeComment);
+    }
 }

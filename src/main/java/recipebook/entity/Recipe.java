@@ -1,6 +1,9 @@
 package recipebook.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.util.Set;
 
 @Entity
@@ -18,6 +21,10 @@ public class Recipe {
         joinColumns = @JoinColumn(name = "recipe_id"),
         inverseJoinColumns = @JoinColumn(name = "food_id"))
     Set<Food> foods;
+
+    @OneToMany(mappedBy = "recipeId", fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    Set<RecipeComment> comments;
 
     public Long getId() {
         return id;
@@ -37,5 +44,13 @@ public class Recipe {
 
     public void setFoods(Set<Food> foods) {
         this.foods = foods;
+    }
+
+    public Set<RecipeComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<RecipeComment> comments) {
+        this.comments = comments;
     }
 }
