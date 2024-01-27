@@ -66,6 +66,6 @@ public class RecipeController {
     @CrossOrigin
     @PostMapping(value = "/addComment", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addComment(@RequestBody RecipeComment recipeComment) {
-        this.recipeCommentService.addComment(recipeComment);
+        this.recipeCommentService.sendComment(String.valueOf(recipeComment.getRecipeId()), recipeComment);
     }
 }
