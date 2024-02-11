@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import recipebook.entity.Food;
+import recipebook.model.FoodDto;
 import recipebook.service.FoodService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/food")
+@CrossOrigin
 public class FoodController {
     @Autowired
     FoodService service;
@@ -36,5 +38,11 @@ public class FoodController {
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable Long id) {
         this.service.delete(id);
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/dto/{id}")
+    public List<FoodDto> getFoodDtos(@MatrixVariable(value = "fields", pathVar = "id", required = false) List<String> fields) {
+        return this.service.getFoodDtosWithFields(fields);
     }
 }

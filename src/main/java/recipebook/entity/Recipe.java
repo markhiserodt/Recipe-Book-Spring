@@ -16,13 +16,13 @@ public class Recipe {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "Recipe_Food",
         joinColumns = @JoinColumn(name = "recipe_id"),
         inverseJoinColumns = @JoinColumn(name = "food_id"))
     Set<Food> foods;
 
-    @OneToMany(mappedBy = "recipeId", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "recipeId", fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     Set<RecipeComment> comments;
 

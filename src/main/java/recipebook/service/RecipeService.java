@@ -6,12 +6,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import recipebook.entity.Recipe;
 import recipebook.model.RecipeDto;
+import recipebook.model.RecipeVO;
 import recipebook.repository.RecipeRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Service
 public class RecipeService {
@@ -87,5 +89,9 @@ public class RecipeService {
         }
         futures.forEach(CompletableFuture::join);
         return recipeDtos;
+    }
+
+    public List<RecipeVO> getRecipeVOWithFields(List<String> fields) {
+        return this.repository.findAll().stream().map(recipe -> new RecipeVO(recipe, fields)).collect(Collectors.toList());
     }
 }

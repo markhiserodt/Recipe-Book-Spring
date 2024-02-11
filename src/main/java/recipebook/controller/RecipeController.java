@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import recipebook.entity.Recipe;
 import recipebook.entity.RecipeComment;
 import recipebook.model.RecipeDto;
+import recipebook.model.RecipeVO;
 import recipebook.service.RecipeCommentService;
 import recipebook.service.RecipeService;
 
@@ -67,5 +68,11 @@ public class RecipeController {
     @PostMapping(value = "/addComment", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addComment(@RequestBody RecipeComment recipeComment) {
         this.recipeCommentService.sendComment(String.valueOf(recipeComment.getRecipeId()), recipeComment);
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/vo/{id}")
+    public List<RecipeVO> getRecipeVOs(@MatrixVariable(value = "fields", pathVar = "id", required = false) List<String> fields) {
+        return this.service.getRecipeVOWithFields(fields);
     }
 }

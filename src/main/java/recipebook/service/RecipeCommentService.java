@@ -22,7 +22,7 @@ public class RecipeCommentService {
     private KafkaTemplate<String, RecipeComment> kafkaTemplate;
     private static final String TOPIC = "recipe_comments";
 
-    @KafkaListener(id = "recipe-comment-consumer", topics = TOPIC, groupId = "recipebook", autoStartup = "true")
+    @KafkaListener(id = "recipe-comment-consumer", topics = TOPIC, groupId = "recipebook", autoStartup = "false")
     public void listen(RecipeComment recipeComment) {
         try {
             this.saveComment(recipeComment);

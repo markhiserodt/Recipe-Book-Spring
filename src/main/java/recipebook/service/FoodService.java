@@ -1,12 +1,14 @@
 package recipebook.service;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import recipebook.entity.Food;
+import recipebook.model.FoodDto;
 import recipebook.repository.FoodRepository;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FoodService {
@@ -15,6 +17,10 @@ public class FoodService {
 
     public List<Food> get() {
         return this.repository.findAll();
+    }
+
+    public List<FoodDto> getDto() {
+        return this.get().stream().map(FoodDto::new).collect(Collectors.toList());
     }
 
     public Food add(Food food) {
@@ -34,5 +40,9 @@ public class FoodService {
 
     public void delete(Long id) {
         this.repository.deleteById(id);
+    }
+
+    public List<FoodDto> getFoodDtosWithFields(List<String> fields) {
+        return this.repository.findAll().stream().map(food -> new FoodDto(food, fields)).collect(Collectors.toList());
     }
 }
