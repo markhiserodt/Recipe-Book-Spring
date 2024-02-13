@@ -18,7 +18,7 @@ public class RecipeDto {
     public RecipeDto(Recipe recipe, boolean isAvailable) {
         this.id = recipe.getId();
         this.name = recipe.getName();
-        this.foods = recipe.getFoods();
+//        this.foods = recipe.getFoods();
         this.isAvailable = isAvailable;
     }
 

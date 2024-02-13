@@ -49,7 +49,7 @@ public class RecipeService {
         }
         Recipe recipeDb = recipeOptional.get();
         recipeDb.setName(recipe.getName());
-        recipeDb.setFoods(recipe.getFoods());
+//        recipeDb.setFoods(recipe.getFoods());
         return this.repository.save(recipeDb);
     }
 
@@ -92,6 +92,14 @@ public class RecipeService {
     }
 
     public List<RecipeVO> getRecipeVOWithFields(List<String> fields) {
+//        Optional<Recipe> recipeOptional = this.repository.findByRecipeId(1L);
+//        if (recipeOptional.isEmpty()) {
+//            throw new RuntimeException();
+//        }
+//        Optional<List<Recipe>> recipeOptionalWithComments = this.repository.findWithComments();
+//        System.out.println(recipeOptional.get().getFoods());
+//        recipeOptional.get().getFoods().forEach(food -> System.out.println(food.getName()));
         return this.repository.findAll().stream().map(recipe -> new RecipeVO(recipe, fields)).collect(Collectors.toList());
     }
+
 }
